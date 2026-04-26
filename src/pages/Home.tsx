@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { CARS } from '../lib/constants';
 import { ChevronRight, ShieldCheck, MapPin, Clock, CalendarDays, PhoneCall, Star } from 'lucide-react';
 
+import { OptimizedImage } from '../components/OptimizedImage';
+
 export function Home() {
   const featuredCars = CARS.filter(c => c.popular || c.luxury || c.bestValue).slice(0, 6);
 
@@ -11,14 +13,17 @@ export function Home() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Abstract Video Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 bg-slate-950">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.4)_0%,rgba(15,23,42,0.95)_100%)] z-10 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20 z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1563720224160-523c915bb098?q=80&w=2670&auto=format&fit=crop" 
-            alt="Luxury Night Driving" 
-            className="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite]"
-          />
+          <video 
+            src="/hero-video.mp4" 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="w-full h-full object-cover opacity-80"
+          ></video>
         </div>
 
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white w-full flex flex-col items-center text-center">
@@ -31,7 +36,7 @@ export function Home() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-6 w-fit">
               <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse border border-blue-400"></span> Premium Rental Punjab
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6 text-center">
               Drive Premium.<br/>
               <span className="bg-gradient-to-r from-white via-white to-slate-500 bg-clip-text text-transparent italic underline decoration-blue-500/50">Travel Better.</span>
             </h1>
@@ -49,7 +54,7 @@ export function Home() {
               </Link>
               <Link
                 to="/fleet"
-                className="px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-full font-bold uppercase tracking-wider text-sm hover:bg-white/10 transition flex items-center"
+                className="px-8 py-4 bg-slate-800/80 border border-white/10 text-white rounded-full font-bold uppercase tracking-wider text-sm hover:bg-slate-700 transition flex items-center"
               >
                 Explore Cars
               </Link>
@@ -66,7 +71,7 @@ export function Home() {
       </section>
 
       {/* Trust Highlights */}
-      <section className="py-12 relative z-30 -mt-16 rounded-t-[3rem] shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.5)] max-w-7xl mx-auto bg-slate-900/40 backdrop-blur-2xl border border-white/10">
+      <section className="py-12 relative z-30 -mt-16 rounded-t-[3rem] shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.5)] max-w-7xl mx-auto bg-slate-900 border border-white/10">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
             <div className="flex flex-col items-center text-center px-4">
@@ -120,9 +125,9 @@ export function Home() {
                 key={car.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl hover:bg-white/10 transition-colors group p-2"
+                className="bg-slate-900/80 border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl hover:bg-slate-800 transition-colors group p-2"
               >
                 <div className="relative h-64 overflow-hidden rounded-[1.5rem] bg-slate-900">
                   <div className="absolute top-4 left-4 z-10 flex gap-2">
@@ -130,10 +135,13 @@ export function Home() {
                     {car.luxury && <span className="bg-white/10 backdrop-blur-sm shadow-xl border border-white/20 text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full">Luxury</span>}
                     {car.bestValue && <span className="bg-neutral-900/80 border border-white/10 backdrop-blur-sm shadow-xl text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full">Best Value</span>}
                   </div>
-                  <img
+                  <OptimizedImage
                     src={car.image}
                     alt={car.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                    fetchPriority={index < 3 ? "high" : "auto"}
+                    loading={index < 3 ? "eager" : "lazy"}
+                    decoding="async"
+                    className="w-full h-full group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/20 to-transparent" />
                   <div className="absolute bottom-5 right-5 text-white font-bold text-2xl drop-shadow-xl flex items-baseline">

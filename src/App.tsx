@@ -11,12 +11,6 @@ import { Booking } from './pages/Booking';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Services } from './pages/Services';
-import { AdminLayout } from './pages/admin/AdminLayout';
-import { Login } from './pages/admin/Login';
-import { Dashboard } from './pages/admin/Dashboard';
-import { ManageCars } from './pages/admin/ManageCars';
-import { ManageBookings } from './pages/admin/ManageBookings';
-import { Settings } from './pages/admin/Settings';
 
 export default function App() {
   return (
@@ -29,14 +23,6 @@ export default function App() {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="services" element={<Services />} />
-        </Route>
-        
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="login" element={<Login />} />
-          <Route path="cars" element={<ManageCars />} />
-          <Route path="bookings" element={<ManageBookings />} />
-          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

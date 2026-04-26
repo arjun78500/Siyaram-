@@ -41,7 +41,7 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white/5 backdrop-blur-2xl p-8 rounded-[2rem] shadow-2xl border border-white/10 hover:bg-white/10 transition-colors group"
+              className="bg-slate-900/80 p-8 rounded-[2rem] shadow-2xl border border-white/10 hover:bg-slate-800 transition-colors group"
             >
               <div className="w-16 h-16 bg-white/5 border border-white/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 {service.icon}
@@ -57,7 +57,7 @@ export function Services() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 bg-slate-900/40 backdrop-blur-3xl rounded-[2rem] p-12 text-center text-white border border-white/10 shadow-2xl relative overflow-hidden"
+          className="mt-20 bg-slate-900/80 rounded-[2rem] p-12 text-center text-white border border-white/10 shadow-2xl relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] -z-10"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-slate-400/10 rounded-full blur-[80px] -z-10"></div>

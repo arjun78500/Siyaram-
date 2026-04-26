@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { CARS } from '../lib/constants';
 import { ShieldCheck, Star } from 'lucide-react';
 
+import { OptimizedImage } from '../components/OptimizedImage';
+
 export function Fleet() {
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
@@ -17,7 +19,7 @@ export function Fleet() {
   return (
     <div className="pt-24 min-h-screen bg-transparent pb-24 relative z-10">
       <div className="pt-16 pb-8 mb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -36,8 +38,8 @@ export function Fleet() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex flex-col md:flex-row gap-4 justify-between items-center bg-slate-900/40 backdrop-blur-2xl p-4 rounded-full shadow-2xl border border-white/10">
-        <div className="flex space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex flex-col md:flex-row gap-4 justify-between items-center bg-slate-900/60 p-4 rounded-full shadow-2xl border border-white/10">
+        <div className="flex space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar scroll-smooth">
           {['All', 'SUV', 'Sedan', 'Hatchback', 'Luxury'].map(f => (
             <button
               key={f}
@@ -62,20 +64,24 @@ export function Fleet() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-neutral-300">
           {filteredCars.map((car, index) => (
             <motion.div
               key={car.id}
               initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[1.5rem] p-2 overflow-hidden shadow-2xl hover:bg-white/10 transition-colors group flex flex-col"
+              className="bg-slate-900/80 border border-white/10 rounded-[1.5rem] p-2 shadow-2xl hover:bg-slate-800 transition-colors group flex flex-col"
             >
               <div className="relative h-48 overflow-hidden bg-slate-900 rounded-[1rem]">
-                <img
+                <OptimizedImage
                   src={car.image}
                   alt={car.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                  fetchPriority={index < 4 ? "high" : "auto"}
+                  loading={index < 4 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="w-full h-full group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-4 right-4 text-white font-bold text-xl drop-shadow-xl flex items-baseline">

@@ -1,8 +1,6 @@
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
 import { CARS } from '../lib/constants';
 
 export function Booking() {
@@ -39,7 +37,7 @@ export function Booking() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -47,26 +45,8 @@ export function Booking() {
     const randomId = Math.floor(1000 + Math.random() * 9000);
     const bookingId = `SYR-${randomId}`;
 
-    try {
-      // Save to Firebase
-      await addDoc(collection(db, 'bookings'), {
-        customerName: formData.name,
-        phone: formData.phone,
-        pickupLocation: formData.pickup,
-        dropLocation: formData.drop,
-        carId: formData.car,
-        pickupDate: formData.date,
-        duration: parseInt(formData.duration),
-        type: formData.type,
-        note: formData.note,
-        status: 'pending',
-        bookingId: bookingId,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
-
-      // Prepare WhatsApp message
-      const text = `Hello Siyaraam Car Rental,
+    // Prepare WhatsApp message
+    const text = `Hello Siyaraam Car Rental,
 I want to book a car.
 
 *Booking ID:* ${bookingId}
@@ -82,18 +62,15 @@ I want to book a car.
 *Note:* ${formData.note}
 
 Please confirm booking.`;
-      
-      const encodedMsg = encodeURIComponent(text);
-      const waUrl = `https://wa.me/919817423513?text=${encodedMsg}`;
-      
-      // Redirect to WhatsApp
-      window.location.href = waUrl;
-      
-    } catch (error) {
-      console.error("Error creating booking: ", error);
-      alert("There was an error creating your booking. Please try again or call us directly.");
-      setIsSubmitting(false);
-    }
+    
+    const encodedMsg = encodeURIComponent(text);
+    const waUrl = `https://wa.me/919817423513?text=${encodedMsg}`;
+    
+    // Redirect to WhatsApp in a new tab to prevent iframe blocking issues
+    window.open(waUrl, '_blank');
+    
+    setIsSubmitting(false);
+    alert("Booking request sent! Continuing in WhatsApp...");
   };
 
   return (
@@ -102,7 +79,7 @@ Please confirm booking.`;
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-slate-900/40 backdrop-blur-3xl rounded-[2rem] shadow-2xl border border-white/10 overflow-hidden"
+          className="bg-slate-900/80 rounded-[2rem] shadow-2xl border border-white/10 overflow-hidden"
         >
           <div className="bg-white/5 border-b border-white/10 px-8 py-10 text-white">
             <h1 className="text-3xl md:text-5xl font-bold tracking-tighter mb-2">Book Your <span className="bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent italic pr-2">Ride</span></h1>
